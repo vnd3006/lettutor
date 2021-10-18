@@ -7,12 +7,20 @@ import ForgetPassword from './Screen/Authentication/ForgetPassword';
 import CourseDetail from './Screen/Course/CourseDetail';
 import ListCourses from './Screen/Course/ListCourses';
 import Profile from './Screen/AccountManagement/Profile';
+import HeaderBookingNoClass from './Component/HeaderBookingNoClass';
+import HeaderBookingClass from './Component/HeaderBookingClass';
+import TagItem from './Component/TagItem';
+
+import Teacher from './Component/Teacher';
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <ListCourses/>
+        {/* <TagItem/> */}
+        <Teacher/>
+        {/* <HeaderBookingClass/> */}
+        {/* <ListCourses/> */}
         {/* <CourseDetail/> */}
         {/* <Profile/> */}
       {/* <ForgetPassword/> */}

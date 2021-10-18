@@ -1,12 +1,29 @@
-import React from "react";
+import React, {useState} from "react";
 import {View, Text, Image, ScrollView, StyleSheet, TextInput, TouchableOpacity, Alert,} from 'react-native'
 import Header from "../../Component/Header";
 import { AntDesign } from '@expo/vector-icons';
 import Course from "../../Component/Course";
 import { Ionicons } from '@expo/vector-icons';
-// import {PickerProps} from '@react-native-picker/picker';
+import { Picker } from "@react-native-community/picker";
 
 import LogoCourse from '../../assets/course.png'
+
+const PickLevel = ()=>{
+    const [selectedValueLevel, setselectedValueLevel] = useState(0);
+    return(
+        <View>
+            <Picker 
+            selectedValue ={selectedValueLevel}
+            style={{height: 50, width: 220}}
+            onValueChange={(itemValue, itemIndex) => setselectedValueLevel(itemValue)}>
+                <Picker.Item label="Sắp xếp theo độ khó" value="0"/>
+                <Picker.Item label="Độ khó giảm dần" value="1" />
+                <Picker.Item label="Độ khó tăng dần" value="2" /> 
+
+            </Picker>
+        </View>
+    )
+} 
 export default function ListCourses(){
     return(
         <View>
@@ -32,10 +49,14 @@ export default function ListCourses(){
                         </View>
                         <Text>LiveTutor đã xây dựng nên các khóa học của các lĩnh vực trong cuộc sống chất lượng, bài bản và khoa học nhất cho những người đang có nhu cầu trau dồi thêm kiến thức về các lĩnh vực.</Text>
                         <View>
-                            <View>
-
+                            <View style={styles.PickLevel}>
+                                {<PickLevel style={styles.PickLevelitem}/>}
                             </View>
-                        </View>        
+                        </View>   
+                        <Course/>     
+                        <Course/>  
+                        <Course/>  
+                        <Course/>  
                     </View>
                 </ScrollView>
             </View>
@@ -92,5 +113,11 @@ const styles = StyleSheet.create({
         fontSize: 26,
         fontWeight: "700",
         marginBottom: 10
+    },
+    PickLevel:{
+        position:"relative"
+    },
+    PickLevelitem:{
+        position: "absolute",
     }
 })
