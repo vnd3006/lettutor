@@ -69,10 +69,12 @@ export default function Teacher(){
 
 const styles = StyleSheet.create({
     container:{
-        margin: 30,
+        // margin: 30,
+        marginBottom:10,
+        marginTop: 10,
         borderWidth: 1,
         borderColor: 'gray',
-        borderRadius: 10,
+        borderRadius: 16,
     },
     header:{
         flexDirection: "row"
