@@ -99,6 +99,9 @@ export default function TeacherDetail(){
                         <Text style={styles.parttitle}>Kinh nghiệm giảng dạy</Text>
                         <Text style={styles.partdescript}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores vero ad quod dignissimos illo suscipit, libero minus, cumque adipisci quas deleniti vel similique saepe debitis quam tenetur dolor asperiores incidunt.</Text>
                     </View>
+                    <View>
+                        
+                    </View>
                 </View>
                 <View style={{height: 200}}/>
             </ScrollView>

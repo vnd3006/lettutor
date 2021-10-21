@@ -14,11 +14,24 @@ import TeacherBooking from './Screen/ViewTeacherAndBooking/TeacherBooking';
 import Teacher from './Component/Teacher';
 import TagItemNoActive from './Component/TagItemNoActive';
 import TeacherDetail from './Screen/ViewTeacherAndBooking/TeacherDetail';
+import BecomeTeacher from './Screen/ViewTeacherAndBooking/BecomeTeacher';
+import Schedule from './Screen/Schedule/Schedule';
+import ScheduleItemHistory from './Component/ScheduleItemHistory';
+
+import ScheduleHistory from './Screen/Schedule/ScheduleHistory';
+import EmptySchedule from './Component/EmptySchedule';
+import ScheduleItem from './Component/ScheduleItem';
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <TeacherDetail/>
+        {/* <ScheduleItem/> */}
+        <Schedule/>
+        {/* <EmptySchedule/> */}
+        {/* <ScheduleHistory/> */}
+        {/* <ScheduleItemHistory/> */}
+        {/* <BecomeTeacher/> */}
+        {/* <TeacherDetail/> */}
         {/* <TeacherBooking/> */}
         {/* <TagItem/> */}
         {/* <Teacher/> */}
