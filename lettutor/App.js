@@ -21,12 +21,14 @@ import ScheduleItemHistory from './Component/ScheduleItemHistory';
 import ScheduleHistory from './Screen/Schedule/ScheduleHistory';
 import EmptySchedule from './Component/EmptySchedule';
 import ScheduleItem from './Component/ScheduleItem';
+import BuyCourse from './Screen/Course/BuyCourse';
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View>
+        <BuyCourse/>
         {/* <ScheduleItem/> */}
-        <Schedule/>
+        {/* <Schedule/> */}
         {/* <EmptySchedule/> */}
         {/* <ScheduleHistory/> */}
         {/* <ScheduleItemHistory/> */}
