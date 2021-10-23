@@ -5,6 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 import VietNam from '../../assets/vietnam.png'
 import { Feather } from '@expo/vector-icons';
 import TagItem from "../../Component/TagItem";
+import BookingAClass from "../../Component/BookAClass";
 // import Video from "react-native-video";
 import { Video } from 'expo-av';
 import Avt from '../../assets/avt.jpg'
@@ -100,7 +101,7 @@ export default function TeacherDetail(){
                         <Text style={styles.partdescript}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores vero ad quod dignissimos illo suscipit, libero minus, cumque adipisci quas deleniti vel similique saepe debitis quam tenetur dolor asperiores incidunt.</Text>
                     </View>
                     <View>
-                        
+                        <BookingAClass/>
                     </View>
                 </View>
                 <View style={{height: 200}}/>

@@ -3,6 +3,7 @@ import {View, Text, Image, ScrollView, StyleSheet} from 'react-native'
 import Header from "../../Component/Header";
 import { AntDesign } from '@expo/vector-icons';
 import Course from "../../Component/Course";
+import { TouchableOpacity } from "react-native";
 // import NewBasicConversation from '../../assets/Course_NewBasicConversation.png'
 
 export default function CourseDetail(){
@@ -13,6 +14,9 @@ export default function CourseDetail(){
                 <ScrollView>
                     <View style={styles.container}>
                        <Course/>
+                       <TouchableOpacity style={styles.btnAction}>
+                            <Text style={styles.btnText}>Khám phá</Text>
+                       </TouchableOpacity>
                         <View>
                             <View>
                                 <View>
@@ -127,5 +131,22 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         opacity: 0.5,
         marginBottom: 4
+    },
+    btnAction:{
+       
+        backgroundColor: '#0071F0',
+        marginHorizontal: 30,
+      
+        borderRadius: 10,
+        paddingVertical: 10,
+        marginTop: -20,
+        marginBottom: 20,
+   
+        fontWeight: '700'
+    },
+    btnText:{
+        color: '#fff',
+        fontSize: 24,
+        textAlign: 'center',
     }
 })

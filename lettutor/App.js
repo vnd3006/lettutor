@@ -22,18 +22,22 @@ import ScheduleHistory from './Screen/Schedule/ScheduleHistory';
 import EmptySchedule from './Component/EmptySchedule';
 import ScheduleItem from './Component/ScheduleItem';
 import BuyCourse from './Screen/Course/BuyCourse';
+import Curriculum from './Screen/Course/Curriculum';
+import BookingAClass from './Component/BookAClass';
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <BuyCourse/>
+        {/* <BookingAClass/> */}
+        {/* <Curriculum/> */}
+        {/* <BuyCourse/> */}
         {/* <ScheduleItem/> */}
         {/* <Schedule/> */}
         {/* <EmptySchedule/> */}
         {/* <ScheduleHistory/> */}
         {/* <ScheduleItemHistory/> */}
         {/* <BecomeTeacher/> */}
-        {/* <TeacherDetail/> */}
+        <TeacherDetail/>
         {/* <TeacherBooking/> */}
         {/* <TagItem/> */}
         {/* <Teacher/> */}
