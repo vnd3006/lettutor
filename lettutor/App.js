@@ -24,10 +24,12 @@ import ScheduleItem from './Component/ScheduleItem';
 import BuyCourse from './Screen/Course/BuyCourse';
 import Curriculum from './Screen/Course/Curriculum';
 import BookingAClass from './Component/BookAClass';
+import Video from './Screen/Video/Video';
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View>
+        <Video/>
         {/* <BookingAClass/> */}
         {/* <Curriculum/> */}
         {/* <BuyCourse/> */}
@@ -37,7 +39,7 @@ export default function App() {
         {/* <ScheduleHistory/> */}
         {/* <ScheduleItemHistory/> */}
         {/* <BecomeTeacher/> */}
-        <TeacherDetail/>
+        {/* <TeacherDetail/> */}
         {/* <TeacherBooking/> */}
         {/* <TagItem/> */}
         {/* <Teacher/> */}
