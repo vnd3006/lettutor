@@ -8,8 +8,9 @@ import Btn from "../../Component/Btn";
 import ByFacebook from "../../Component/ByFacebook";
 import ByGoogle from "../../Component/ByGoogle";
 import LogIn from "./LogIn"
-import { auth } from "../../Component/FirebaseConfig";
-
+// import { auth } from "../../Component/FirebaseConfig";
+import axios from 'axios'
+import { url_base } from "../../api/connect";
 export default function Register({navigation}){
     const [values, setValues] = useState({
         email: '',
@@ -42,31 +43,31 @@ export default function Register({navigation}){
     //     // setValues({...values, [name] : value})
     // }
 
+    const SignUpAcc = async (email, password) => {
+        try {
+            console.log("==============================",email,password);
+            const res = await axios.post(`${url_base}auth/login`, {
+                email: email, password: password, source: null
+            });
+            console(res.data)
+            // showMessage({ type: 'success', message: 'Register successful', description: 'Check your mail to confirm your account' })
+            navigation.navigate('LogIn')
+        } catch (error) {
+          
+         
+        }
+        
+    }
     const [submitted, setSubmitted] = useState(false)
     const [checkedPassword, setCheckedPassword] = useState(false)
     const handleSubmit = (e) =>{
         // e.preventDefault();
-        setSubmitted(true);
-        if(values.password == values.confirmPassword){
+        if(values.password === values.confirmPassword){
             setCheckedPassword(true)
-            auth
-            .createUserWithEmailAndPassword(values.email,values.password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                Alert.alert(
-                    "Đăng ký thành công",
-                )
-                navigation.navigate('LogIn')
-                console.log('Register with email ', user.email);
-            })
-            .catch((error) => {
-                // const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorMessage);
-                // ..
-            });
         }
+        setSubmitted(true);
+        console.log('======', values.confirmPassword);
+        SignUpAcc(values.email,values.password)
         
         
     }

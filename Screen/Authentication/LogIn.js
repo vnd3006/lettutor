@@ -8,6 +8,7 @@ import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 // import { TextInput } from "react-native-web";
 import { auth } from "../../Component/FirebaseConfig";
+import {showMessage} from 'react-native-flash-message'
 
 
 import {url_base} from "../../api/connect";
@@ -32,10 +33,19 @@ export default function LogIn({navigation}){
             const res = await axios.post(`${url_base}auth/login`, {
                 email, password
             });
-            SaveUseInfo(res.data)
+            console.log(res.data);
+            showMessage({
+                type: 'success', message: 'Login successful'
+            })
+            setSubmitted(false)
+            navigation.navigate('HomeNavigator')
 
         } catch (error) {
+            showMessage({
+                type: 'error', message: 'Login successful'
+            })
             console.log("-----------------error",error)
+            setSubmitted(false)
             // errorHandle(error)
         }
     }
@@ -43,7 +53,7 @@ export default function LogIn({navigation}){
     const handleSubmit = (e) =>{
         setSubmitted(true)
         logInHandler(values.email, values.password)
-        setSubmitted(false)
+        
     }
 
     // navigation.navigate('HomeNavigator')
@@ -53,6 +63,7 @@ export default function LogIn({navigation}){
             <View style={styles.container}>
                 <LogoLettutor/>
                 <View>
+                    
                     <View style={styles.form__input}>
                         <Text>Email</Text>
                         <TextInput style={styles.input} placeholder="example@email.com" keyboardType="email-address"
