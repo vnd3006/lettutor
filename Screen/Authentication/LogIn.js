@@ -10,12 +10,14 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import { auth } from "../../Component/FirebaseConfig";
 
 
+import {url_base} from "../../api/connect";
+import axios from 'axios'
 
 
 export default function LogIn({navigation}){
     const [values,setValues] = useState({
-        email: '',
-        password: ''
+        email: 'student@lettutor.com',
+        password: '123456'
     })
     const handleEmailChange = (e) => {
         setValues({...values, email: e})
@@ -25,39 +27,26 @@ export default function LogIn({navigation}){
         setValues({...values, password: e})
     }
 
-    // const naviga = useNavigation();
+    const logInHandler = async (email,password) =>{
+        try {
+            const res = await axios.post(`${url_base}auth/login`, {
+                email, password
+            });
+            SaveUseInfo(res.data)
 
-    // useEffect(() => {
-    //    const unsubscribe =  auth.onAuthStateChanged(user =>{
-    //        if(user){
-    //            navigation.replace('TeacherBooking');
-    //        }
-    //    })
-    //    return unsubscribe
-    // })
-
+        } catch (error) {
+            console.log("-----------------error",error)
+            // errorHandle(error)
+        }
+    }
     const [submitted, setSubmitted] = useState(false)
     const handleSubmit = (e) =>{
-        // e.preventDefault();
-        setSubmitted(true);
-        auth
-        .signInWithEmailAndPassword(values.email,values.password)
-        .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            setValues({email: '', password: ''})
-            setSubmitted(false)
-            navigation.navigate('HomeNavigator')
-            console.log('Login with email: ', user.email);
-        })
-        .catch((error) => {
-            // const errorCode = error.code;
-            const errorMessage = error.message;
-            Alert.alert(errorMessage);
-            // console.log(errorMessage);
-            // ..
-        });
+        setSubmitted(true)
+        logInHandler(values.email, values.password)
+        setSubmitted(false)
     }
+
+    // navigation.navigate('HomeNavigator')
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 

@@ -48,8 +48,8 @@ const Setting = () =>{
 }
 
 const Courses = () =>{
-  return <CourseStack.Navigator>
-    <CourseStack.Screen name='ListCourses' component={ListCourses}/>
+  return <CourseStack.Navigator screenOptions={{headerShown : false}}>
+    <CourseStack.Screen name='ListCourses' component={ListCourses} />
     <CourseStack.Screen name='CourseDetail' component={CourseDetail}/>
   </CourseStack.Navigator>
 }
