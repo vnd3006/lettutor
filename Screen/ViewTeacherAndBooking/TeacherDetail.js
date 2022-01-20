@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState, useContext} from "react";
 import {View, Image, Text, StyleSheet, TouchableOpacity, Alert, ScrollView} from 'react-native'
 import Header from "../../Component/Header";
 import { AntDesign } from "@expo/vector-icons";
@@ -11,35 +11,66 @@ import { Video } from 'expo-av';
 import Avt from '../../assets/avt.jpg'
 
 import audio from '../../assets/video.mp4'
+import { ApiContext } from "../../context/APIcontext";
+import { url_base } from "../../api/connect";
+import axios from 'axios'
+import { Rating } from 'react-native-ratings';
+import { FlagButton } from 'react-native-country-picker-modal';
+import ListTag from "../../Component/ListTag";
+import { getListLabel } from "../../bussiness/specialies";
 
-export default function TeacherDetail(){
+
+
+export default function TeacherDetail({route}){
+    const id = route.params.id
+
+    const {token} = useContext(ApiContext)
+    const [data,setData] = useState({});
     const video = React.useRef(null);
+    const [loadData,setLoadData] = useState(true)
+    const getData = async () => {
+        try {
+            const infor = await axios.get(url_base + 'tutor/' + id, { headers: { 'Authorization': 'Bearer ' + token } })
+            setData(infor.data);
+            setLoadData(false)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    React.useEffect(() => {
+        getData()
+    }, []
+    )
+  
     return(
         <View>
+            {loadData?null:
+        <View style={{backgroundColor: 'white'}}>
             <Header/>
             <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.header}>
-                        <Image style={styles.avt} source={Avt}/>
+                        <Image style={styles.avt} source={{uri: data.User.avatar}}/>
                         <View style={styles.infoTeacher}>
-                            <Text style={styles.nameteacher}> J Dan</Text>
-                            <View style={styles.rating}>
-                                <Text style={styles.nonrating}>Chưa có đánh giá</Text>
-                                {/* <AntDesign name="star" size={18} color="#FADB14" />
-                                <AntDesign name="star" size={18} color="#FADB14" />
-                                <AntDesign name="star" size={18} color="#FADB14" />
-                                <AntDesign name="star" size={18} color="#FADB14" />
-                                <AntDesign name="star" size={18} color="#FADB14" /> */}
-                            </View>
+                            <Text style={styles.nameteacher}>{data.User.name}</Text>
+                            {data.rating != 0?
+                                <View >
+                                    <Rating readonly={true}
+                                    startingValue={data.rating}
+                                    style={{ marginVertical: 1, alignSelf: 'flex-start'}}
+                                    imageSize={20}/>
+                                </View>:
+                                <View style={styles.rating}>
+                                    <Text style={styles.nonrating}>Chưa có đánh giá</Text>
+                                </View>
+                            }
                             <View style={styles.labelCountry}>
-                                <Image style={styles.ensign} source={VietNam}/>
-                                <Text>Viet Nam</Text>
+                                <FlagButton {...{ countryCode: data.User.country }} withCountryNameButton />
                             </View>
                         </View>
                     </View>
                     <Text style={styles.descript}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, corrupti enim nam inventore magnam praesentium, eveniet molestias nobis, aut maxime doloribus? Voluptate velit enim error illo eos nisi corrupti delectus.
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident minus fugiat quisquam ipsa dolor suscipit placeat minima deleniti temporibus, blanditiis consequuntur velit cupiditate quam, ipsam laudantium illum ullam error. Impedit?
+                        {data.bio}
                     </Text>
                     <View style={styles.actionsection}>
                         <TouchableOpacity style={styles.icongroup} onPress={()=>{
@@ -72,7 +103,7 @@ export default function TeacherDetail(){
                         <Video
                             ref={video}
                             style={styles.video}
-                            source={audio}
+                            source={{uri: data.video}}
                             useNativeControls
                             resizeMode='contain'
                             isLooping/>
@@ -80,25 +111,25 @@ export default function TeacherDetail(){
                     <View >
                         <Text style={styles.parttitle}>Ngôn ngữ</Text>
                         <View style={styles.language}>
-                            <TagItem title={'English'}/>
+                        <ListTag tags={data.languages.split(',')} />
+                            {/* <TagItem title={'English'}/> */}
                         </View>
                     </View>
                     <View >
                         <Text style={styles.parttitle}>Chuyên ngành</Text>
                         <View style={styles.language}>
-                            <TagItem title={'Tiếng Anh cho công việc'}/>
-                            <TagItem title={'Giao tiếp'}/>
-                            <TagItem title={'Tiếng Anh cho trẻ em'}/>
-                            <TagItem title={'TOEIC'}/>
+            
+                            <ListTag tags={getListLabel(data.specialties.split(","))} />
+                            
                         </View>
                     </View>
                     <View >
                         <Text style={styles.parttitle}>Sở thích</Text>
-                        <Text style={styles.partdescript}>Reading books, eating, playing badminton and playing with kids</Text>
+                        <Text style={styles.partdescript}>{data.interests}</Text>
                     </View>
                     <View >
                         <Text style={styles.parttitle}>Kinh nghiệm giảng dạy</Text>
-                        <Text style={styles.partdescript}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores vero ad quod dignissimos illo suscipit, libero minus, cumque adipisci quas deleniti vel similique saepe debitis quam tenetur dolor asperiores incidunt.</Text>
+                        <Text style={styles.partdescript}>{data.experience}</Text>
                     </View>
                     <View>
                         <BookingAClass/>
@@ -106,6 +137,8 @@ export default function TeacherDetail(){
                 </View>
                 <View style={{height: 200}}/>
             </ScrollView>
+        </View>
+            }
         </View>
     )
 }
@@ -178,8 +211,8 @@ const styles=StyleSheet.create({
         marginBottom: 8
     },
     language:{
-        flexDirection:'row',
-        flexWrap: 'wrap'
+        flexDirection: "row",
+        flexWrap: 'wrap',
     },
     partdescript:{
         color: '#888',

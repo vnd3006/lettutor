@@ -1,1 +1,3 @@
 export const url_base = 'https://sandbox.api.lettutor.com/'
+
+export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTY5YzIwMi03YmJmLTQ2MjAtYWY3Ny1lY2MxNDE5YTZiMjgiLCJpYXQiOjE2NDI2MDc0NTEsImV4cCI6MTY0MjY5Mzg1MSwidHlwZSI6ImFjY2VzcyJ9.YtDFXiuvmcgoVmOcLhwOd72I7WFfPtxYWrDPHX4DuK8'

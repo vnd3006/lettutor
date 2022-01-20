@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View,SafeAreaView, SafeAreaViewComponent } from 'react-native';
 import LogIn from './Screen/Authentication/LogIn';
 import Register from './Screen/Authentication/Register';
@@ -31,6 +31,7 @@ import Menu from './Component/Menu';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import ApiProvider from './context/APIcontext';
 
 const MainNavigatorStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,9 +49,16 @@ const Setting = () =>{
 }
 
 const Courses = () =>{
+    return <CourseStack.Navigator screenOptions={{headerShown : false}}>
+        <CourseStack.Screen name='ListCourses' component={ListCourses} />
+        <CourseStack.Screen name='CourseDetail' component={CourseDetail}/>
+    </CourseStack.Navigator>
+}
+
+const HomePage = ()=>{
   return <CourseStack.Navigator screenOptions={{headerShown : false}}>
-    <CourseStack.Screen name='ListCourses' component={ListCourses} />
-    <CourseStack.Screen name='CourseDetail' component={CourseDetail}/>
+    <CourseStack.Screen name='TeacherBooking' component={TeacherBooking} />
+    <CourseStack.Screen name='TeacherDetail' component={TeacherDetail}/>
   </CourseStack.Navigator>
 }
 const HomeNavigator = ()=>{
@@ -80,7 +88,7 @@ const HomeNavigator = ()=>{
         // tabBarInactiveTintColor: 'gray',
       })}
       >
-        <Tab.Screen name='Home' component={TeacherBooking}/>
+        <Tab.Screen name='Home' component={HomePage}/>
         <Tab.Screen name = 'Course' component={Courses}/>
         <Tab.Screen name ='Schedule' component={Schedule}/>
         <Tab.Screen name='Buy Course' component={BuyCourse}/>
@@ -104,12 +112,12 @@ const Tabs = createBottomTabNavigator();
 
 
 export default function App() {
-  
   return (
-    <NavigationContainer style={styles.container}>
-        <MainNavigator/>    
-    </NavigationContainer>
-
+        <NavigationContainer style={styles.container}>
+            <ApiProvider>
+                <MainNavigator/>    
+            </ApiProvider>
+        </NavigationContainer>
   );
 }
 

@@ -3,67 +3,76 @@ import { View, Image, Text, StyleSheet, TouchableOpacity, Alert } from "react-na
 import { AntDesign } from '@expo/vector-icons';
 import { EvilIcons } from "@expo/vector-icons";
 import { Feather } from '@expo/vector-icons';
+import { FlagButton } from 'react-native-country-picker-modal';
+import ListTag from "./ListTag";
 
 import TagItem from "./TagItem";
 import Avt from '../assets/avt.jpg'
 import VietNam from '../assets/vietnam.png'
 
+import { Rating } from 'react-native-ratings';
+import { getListLabel } from "../bussiness/specialies";
 
-export default function Teacher(){
+
+export default function Teacher(props){
+    const onPressItem = ()=>{
+        props.navigation.navigate('TeacherDetail',{id: props.item.userId}) 
+    }
+
+    const listSpecialies = getListLabel(props.item.specialties.split(","));
     return(
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <View style={styles.HeaderRight}>
-                    <Image style={styles.avtimg} source={Avt}/>
-                    <Text style={styles.name} >April Corpur</Text>
-                    <View style={styles.labelCountry}>
-                        <Image style={styles.ensign} source={VietNam}/>
-                        <Text>Viet Nam</Text>
+        <TouchableOpacity onPress={onPressItem}>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <View style={styles.HeaderRight}>
+                        <Image style={styles.avtimg} source={{ uri: props.item.avatar }}/>
+                        <Text style={styles.name} >{props.item.name}</Text>
+                        <View style={styles.labelCountry}>
+                        <FlagButton {...{ countryCode: props.item.country }} containerButtonStyle={{ margin: 0, padding: 0 }} withCountryNameButton />
+                        </View>
+                        {props.item.rating != undefined?
+                        <Rating readonly={true}
+                        startingValue={props.item.rating}
+                        style={{ marginVertical: 1, alignSelf: 'flex-start'}}
+                        imageSize={20}/>:
+                        <View style={styles.rating}>
+                            <Text style={styles.nonrating}>Chưa có đánh giá</Text>
+                        </View>
+                        }
                     </View>
-                    <View style={styles.rating}>
-                        <Text style={styles.nonrating}>Chưa có đánh giá</Text>
-                        {/* <AntDesign name="star" size={18} color="#FADB14" />
-                        <AntDesign name="star" size={18} color="#FADB14" />
-                        <AntDesign name="star" size={18} color="#FADB14" />
-                        <AntDesign name="star" size={18} color="#FADB14" />
-                        <AntDesign name="star" size={18} color="#FADB14" /> */}
+                    <View style={styles.HeaderLeft}>
+                        <AntDesign name="hearto" size={24} color="blue" />
+                        {/* <AntDesign name="heart" size={24} color="red" /> */}
                     </View>
                 </View>
-                <View style={styles.HeaderLeft}>
-                    <AntDesign name="hearto" size={24} color="blue" />
-                    {/* <AntDesign name="heart" size={24} color="red" /> */}
+                <View style={styles.tagItem}>
+                    <ListTag tags={listSpecialies}/>
                 </View>
-            </View>
-            <View style={styles.tagItem}>
-                <TagItem title='Tiếng Anh cho trẻ em'/>
-                <TagItem title='MOVERS'/>
-                <TagItem title='Tiếng Anh cho công việc'/>
-            </View>
-            <View style={styles.descript}>
-                <Text numberOfLines={4} style={styles.textDescript}>Hello there! I am an Industrial Engineer in the profession but chose to do online teaching because I love to meet different learners. I am an outgoing person and I have this passion for dealing with different people and seeing them progress with my help as their teacher. In fact, making friends is one of my best skills. I am very good at adapting to new environments and new situations. I am very friendly and can easily get along well with everyone.
-                        I have obtained a 120-Hour TEFL Certificate. I get a variety of teaching techniques. I know that there are fast and not so fast learners. So don't worry, I will be with you every step of the way going at your own pace. Let's practice what you already know and add something new each day. 
-                        With my skills and experiences, I can assure you that I can provide adequate English learning effectively and efficiently. Together, let's make English learning fun.
-                </Text>
-            </View>
-           <View style={styles.BookingContact}>
-                <View style={styles.TeacherBooking}>
-                    <TouchableOpacity style={styles.booking} onPress={()=>{
-                        Alert.alert('Booking')
-                    }}>
-                        <Feather name="calendar" size={24} color="#0071F0" />
-                        <Text style={{color: '#0071F0', marginLeft: 4}}>Đặt lịch</Text>
-                    </TouchableOpacity>
+                <View style={styles.descript}>
+                    <Text numberOfLines={4} style={styles.textDescript}>
+                            {props.item.bio}
+                    </Text>
                 </View>
-                <View style={styles.TeacherBooking}>
-                    <TouchableOpacity style={styles.booking} onPress={()=>{
-                        Alert.alert('Nhắn tin')
-                    }}>
-                        <Feather name="message-square" size={24} color="#0071F0" />
-                        <Text style={{color: '#0071F0', marginLeft: 4}}>Nhắn tin</Text>
-                    </TouchableOpacity>
-                </View>
-           </View>
-        </View>
+            <View style={styles.BookingContact}>
+                    <View style={styles.TeacherBooking}>
+                        <TouchableOpacity style={styles.booking} onPress={()=>{
+                            Alert.alert('Booking')
+                        }}>
+                            <Feather name="calendar" size={24} color="#0071F0" />
+                            <Text style={{color: '#0071F0', marginLeft: 4}}>Đặt lịch</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.TeacherBooking}>
+                        <TouchableOpacity style={styles.booking} onPress={()=>{
+                            Alert.alert('Nhắn tin')
+                        }}>
+                            <Feather name="message-square" size={24} color="#0071F0" />
+                            <Text style={{color: '#0071F0', marginLeft: 4}}>Nhắn tin</Text>
+                        </TouchableOpacity>
+                    </View>
+            </View>
+            </View>
+        </TouchableOpacity>
     )
 }
 

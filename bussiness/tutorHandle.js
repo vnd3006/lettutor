@@ -1,5 +1,3 @@
-
-
 export function handleListTutor(data, favourData) {
     if (data == null)
         return [];
@@ -32,7 +30,7 @@ export function handleListTutor(data, favourData) {
 export function handleListConst(data) {
     const result = [];
     data.forEach(item => {
-        result.push({ ...item, label: item.name })
+        result.push({...item, label: item.name })
     })
     return result;
 }
@@ -44,4 +42,3 @@ export function updateFavorTutor(tutors, id) {
         tutor.isFavor = !tutors.isFavor;
     return tutors;
 }
-

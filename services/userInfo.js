@@ -54,13 +54,7 @@ export async function becomeTutor(data, token) {
                 continue
             }
             if (key == 'specialties') {
-                // const result = [];
-                // data[key].forEach(id => result += itemsWantToLearn.find(
-                //     section => 
-                //     section.children.find(
-                //         item=> item.id == id
-                //     )
-                // ). + ', ')
+
                 params.append(key, 'english-for-kids,business-english');
                 continue
             }

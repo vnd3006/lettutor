@@ -11,6 +11,7 @@ import LogIn from "./LogIn"
 // import { auth } from "../../Component/FirebaseConfig";
 import axios from 'axios'
 import { url_base } from "../../api/connect";
+import qs from 'qs'
 export default function Register({navigation}){
     const [values, setValues] = useState({
         email: '',
@@ -45,16 +46,19 @@ export default function Register({navigation}){
 
     const SignUpAcc = async (email, password) => {
         try {
+            const data = {
+                'email': email,
+                'password': password,
+                'source': null
+            }
             console.log("==============================",email,password);
-            const res = await axios.post(`${url_base}auth/login`, {
-                email: email, password: password, source: null
-            });
+            const res = await axios.post(`${url_base}auth/login`, qs.stringify(data));
             console(res.data)
             // showMessage({ type: 'success', message: 'Register successful', description: 'Check your mail to confirm your account' })
             navigation.navigate('LogIn')
         } catch (error) {
           
-         
+            console.log("error:",error);
         }
         
     }
@@ -75,7 +79,7 @@ export default function Register({navigation}){
         <View style={styles.container}>
              <View style={styles.form__input}>
                 <Text>Full name</Text>
-                <TextInput style={styles.input} placeholder="Vo Ngoc Duy" keyboardType="default"
+                <TextInput style={styles.input} placeholder="Nguyen Van A" keyboardType="default"
                 value={values.fullname}
                 name="fullname"
                 onChangeText={handleFullNameChange}

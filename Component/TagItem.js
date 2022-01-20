@@ -1,11 +1,12 @@
 import React from "react";
 import {View, Text,StyleSheet, Vibration} from 'react-native'
 
-export default function TagItem(props){
+export default function TagItem({item}){
+    
     return(
         <View>
             <View style={styles.Item}> 
-                <Text style={styles.TagItem}>{props.title}</Text>
+                <Text style={styles.TagItem}>{item}</Text>
             </View>
         </View>
         

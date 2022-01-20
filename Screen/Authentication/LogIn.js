@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {View, Text, Image, StyleSheet, TextInput, TouchableOpacity,Alert, TouchableWithoutFeedback, Keyboard} from 'react-native'
 import Btn from "../../Component/Btn";
 import ByFacebook from "../../Component/ByFacebook";
@@ -10,12 +10,15 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import { auth } from "../../Component/FirebaseConfig";
 import {showMessage} from 'react-native-flash-message'
 
+import { ApiContext } from "../../context/APIcontext";
 
 import {url_base} from "../../api/connect";
 import axios from 'axios'
 
 
 export default function LogIn({navigation}){
+
+    const {TokenData, token} = useContext(ApiContext)
     const [values,setValues] = useState({
         email: 'student@lettutor.com',
         password: '123456'
@@ -33,7 +36,10 @@ export default function LogIn({navigation}){
             const res = await axios.post(`${url_base}auth/login`, {
                 email, password
             });
-            console.log(res.data);
+            // console.log(res.data);
+            TokenData(res.data.tokens.access.token)
+            // console.log('=======',getToken)
+    
             showMessage({
                 type: 'success', message: 'Login successful'
             })

@@ -2,15 +2,17 @@ import React from "react";
 import {View,Text,TouchableOpacity, StyleSheet} from 'react-native'
 import { EvilIcons } from '@expo/vector-icons';
 
-export default function HeaderBookingClass(){
+export default function HeaderBookingClass({hour, min, startTime, endTime, checknull, date}){
     return(
         <View style={styles.container}>
-            <Text style={styles.header}>Tổng số giờ bạn đã học là 12 giờ 55 phút</Text>
+            <Text style={styles.header}>Tổng số giờ bạn đã học là {hour} giờ {min} phút</Text>
             <Text style={styles.textBody}>Buổi học sắp diễn ra</Text>
+            {checknull?
+            <View style={styles.nonClass}><Text style={styles.textBody}>Không có buổi học nào sắp diễn ra, bấm vào bên dưới để đặt thêm</Text></View>:
             <View style={styles.Timer}>
                 <View style={styles.classTime}>
-                    <Text style={styles.TimeOpen}>T3, 19 - 10 - 2021</Text>
-                    <Text style={styles.TimeOpen}>00:00 - 00:30</Text>
+                    <Text style={styles.TimeOpen}>{date}</Text>
+                    <Text style={styles.TimeOpen}>{startTime} - {endTime}</Text>
                 </View>
                 <View>
                     <TouchableOpacity style={styles.booking}>
@@ -19,7 +21,7 @@ export default function HeaderBookingClass(){
                     </TouchableOpacity>
                 </View>
                 
-            </View>
+            </View>}
             <View >
                 <TouchableOpacity style={styles.booking}>
                     <EvilIcons name="calendar" size={24} color="#0C3BDB" />
@@ -74,5 +76,9 @@ const styles = StyleSheet.create({
     TimeOpen:{
         fontSize: 20,
         color: '#fff'
+    },
+    nonClass:{
+        marginHorizontal: 20,
+        marginVertical: 16
     }
 })
