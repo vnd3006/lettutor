@@ -53,7 +53,7 @@ export default function Register({navigation}){
             }
             console.log("==============================",email,password);
             const res = await axios.post(`${url_base}auth/login`, qs.stringify(data));
-            console(res.data)
+
             // showMessage({ type: 'success', message: 'Register successful', description: 'Check your mail to confirm your account' })
             navigation.navigate('LogIn')
         } catch (error) {

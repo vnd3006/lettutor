@@ -7,8 +7,6 @@ import { FlagButton } from 'react-native-country-picker-modal';
 import ListTag from "./ListTag";
 
 import TagItem from "./TagItem";
-import Avt from '../assets/avt.jpg'
-import VietNam from '../assets/vietnam.png'
 
 import { Rating } from 'react-native-ratings';
 import { getListLabel } from "../bussiness/specialies";
@@ -28,7 +26,7 @@ export default function Teacher(props){
                         <Image style={styles.avtimg} source={{ uri: props.item.avatar }}/>
                         <Text style={styles.name} >{props.item.name}</Text>
                         <View style={styles.labelCountry}>
-                        <FlagButton {...{ countryCode: props.item.country }} containerButtonStyle={{ margin: 0, padding: 0 }} withCountryNameButton />
+                        <FlagButton {...{ countryCode: props.item.country }} containerButtonStyle={{ margin: 0, padding: 0 }} withCountryNameButton placeholder=""/>
                         </View>
                         {props.item.rating != undefined?
                         <Rating readonly={true}
