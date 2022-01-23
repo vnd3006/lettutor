@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useState, useContext}from "react";
 import {Text, View, Image, TouchableOpacity, StyleSheet, TouchableOpacityBase} from 'react-native'
 import Header from "./Header";
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -7,14 +7,28 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LogIn from "../Screen/Authentication/LogIn";
 import Profile from "../Screen/AccountManagement/Profile";
 import ScheduleHistory from "../Screen/Schedule/ScheduleHistory";
+import { ApiContext } from "../context/APIcontext";
+import { getUserInfo } from "../services/userInfo";
+
 export default function Menu({navigation}){
+    const {token} = useContext(ApiContext)
+
+    const getData = async () =>{
+        const res = await getUserInfo(token)
+        setData(res)
+        // console.log('====================aaaaa',res.name);
+    }
+    React.useEffect(()=>{
+        getData()
+    },[])
+    const [data, setData] = useState([])
     return(
         <View>
             <Header/>
             <View style={styles.container}>
                 <TouchableOpacity style={styles.row} onPress={()=>{navigation.navigate('Profile')}}>
-                    <Image style={styles.avtimg} source={Avt}/>
-                    <Text style={styles.title}>Vo Ngoc Duy</Text>
+                    <Image style={styles.avtimg} source={{uri: data.avatar}}/>
+                    <Text style={styles.title}>{data.name}</Text>
                 </TouchableOpacity>
                 {/* <TouchableOpacity style={styles.row}>
                     <FontAwesome5 name="book-medical" size={40} color="#0071F0" style={styles.icon} />

@@ -1,55 +1,41 @@
-import React, {useState} from "react";
-import {View, Text, Image, ScrollView, StyleSheet, TextInput, TouchableOpacity, Alert, SectionList} from 'react-native'
+import React, {useState, useContext} from "react";
+import {View, Text, Image, ScrollView, StyleSheet, TextInput, TouchableOpacity, Alert, SectionList, FlatList} from 'react-native'
 import Header from "../../Component/Header";
 import { AntDesign } from '@expo/vector-icons';
 import Course from "../../Component/Course";
 import { Ionicons } from '@expo/vector-icons';
 // import { Picker } from "@react-native-community/picker";
-
+import { getListCourse } from "../../services/course";
 import LogoCourse from '../../assets/course.png'
 import CourseItem from "./CourseItem";
+import { ApiContext } from "../../context/APIcontext";
+import {getLevelTitle } from "../../bussiness/course"
 
 export default function ListCourses(props){
-    const courses =[
-        {
-            title: 'English For Beginners',
-            data:[
-                {
-                    id: 1,
-                    title: 'Basic Conversation Topics (New)',
-                    description: 'Gain confidence speaking about familiar topics',
-                    level: 'Beginner',
-                    duration: '10 Lessons'
-                },
-                {
-                    id: 2,
-                    title: 'Intermediate Conversation Topics (New)',
-                    description: 'Express your ideas and opinions',
-                    level: 'Beginner',
-                    duration: '10 Lessons'
-                },
-            ]
-        },
-        {
-            title: 'Conversational English',
-            data:[
-                {
-                    id: 1,
-                    title: 'Healthy Mind, Healthy Body (New)',
-                    description: 'Lets discuss the many aspects of living a long, happy life',
-                    level: 'Intermediate',
-                    duration: '6 Lessons'
-                },
-                {
-                    id: 2,
-                    title: 'Movies and Television (New)',
-                    description: 'Lets discuss our preferences and habits surrounding movies and television shows',
-                    level: 'Beginner',
-                    duration: '10 Lessons'
-                },
-            ]
-        },
-    ]
+    const {token} = useContext(ApiContext)
+    const [data,setData]= useState([])
+    const [loadData, setLoadData]= useState(true)
+    // const naviga = props.navigation
+
+    const getData = async () =>{
+        setLoadData(true)
+        const params ={
+            page:1 , size: 100
+        }
+        const res = await getListCourse(token, params);
+        setData(prs => prs.concat(res));
+        setLoadData(false);
+    }
+
+    React.useEffect(()=>{
+        getData()
+    },[])
+
+    const Course = ({item}) =>{
+        return (
+            <CourseItem  navigation={props.navigation} item={item}/>
+        )
+    }
     return(
         <View>
             <Header/>
@@ -134,12 +120,19 @@ export default function ListCourses(props){
                             <Text style={styles.tabActive}>Khóa học</Text>
                             <Text style={styles.tabCourse}>E-book</Text>
                         </View>
+                        <FlatList
+                        data={data}
+                        renderItem = {Course}
+                        keyExtractor={item => item.id.toString()}
+                        refreshing={false}
+                        onRefresh={getData}
+                        />
                
-                        <SectionList 
+                        {/* <SectionList 
                         sections={courses}
                         renderItem={({item}) => <CourseItem navigation = {props.navigation} item ={item}/>}
                         renderSectionHeader={({section: {title}})=><Text style={styles.titleHeader}>{title}</Text>}
-                       />   
+                       />    */}
                     </View>
                     <View style={{height: 220}}></View>
                 </ScrollView>

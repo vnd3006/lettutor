@@ -34,14 +34,16 @@ export default function TeacherBooking(props){
         getData();
     }, [])
 
+    const navigate = props.navigation
+
     const LessonView = ()=>{
         return(
             <View>
-                {getTotalTime(total,upcomingData)}
+                {getTotalTime(total,upcomingData,navigate)}
             </View>
         )
     }
-    // console.disableYellowBox = true;
+    console.disableYellowBox = true;
     return(
         <View style={styles.cotainer}>
             <Header/>
@@ -79,7 +81,7 @@ export default function TeacherBooking(props){
     )
 }
 
-function getTotalTime(total, upcomingData){
+function getTotalTime(total, upcomingData,navigate){
 
     if(total === 0)
     {
@@ -89,14 +91,14 @@ function getTotalTime(total, upcomingData){
         const minutes = total % 60;
         const check = true;
         if(upcomingData == null){
-            return <HeaderBookingClass hour= {hours} min ={minutes} checknull = {check} startTime={0} endTime={0} date={0}/>
+            return <HeaderBookingClass navigation = {navigate} hour= {hours} min ={minutes} checknull = {check} startTime={0} endTime={0} date={0}/>
         }
         else{
             const detail = upcomingData.scheduleDetailInfo;
             const startTime = new Date(detail.startPeriodTimestamp);
             const endTime = new Date(detail.endPeriodTimestamp);
     
-            return <HeaderBookingClass hour= {hours} min ={minutes} date = {startTime.toString().substring(0,15)} startTime={startTime.toString().substring(16, 21)} endTime={endTime.toString().substring(16, 21)} checknull={!check}/>
+            return <HeaderBookingClass navigation = {navigate} hour= {hours} min ={minutes} date = {startTime.toString().substring(0,15)} startTime={startTime.toString().substring(16, 21)} endTime={endTime.toString().substring(16, 21)} checknull={!check}/>
         }        
     }
 }

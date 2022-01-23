@@ -1,11 +1,49 @@
-import React from "react";
-import {View,Image, Text, StyleSheet, ScrollView} from 'react-native'
+import React, {useContext,useState} from "react";
+import {View,Image, Text, StyleSheet, ScrollView, FlatList} from 'react-native'
 import Header from "../../Component/Header";
-
 import calendar from '../../assets/calendar.png'
-// import EmptySchedule from "../../Component/EmptySchedule";
+import EmptySchedule from "../../Component/EmptySchedule";
 import ScheduleItem from "../../Component/ScheduleItem";
+import { ApiContext } from "../../context/APIcontext";
+import { getUpcomingSchedule } from "../../services/schedule";
+import { cancelLesson } from '../../services/booking';
 export default function Schedule(){
+    const {token} = useContext(ApiContext)
+    const [loadData,setLoadData]=useState(true)
+    const [data,setData]=useState([])
+    const [page,setPage] = useState(1)
+    const [count,setCount] = useState(0)
+    const [itemPerPage,setItemPerPage] = useState(4)
+    const [searchKey, setSearchKey] = useState('');
+
+
+    const getData = async ()=>{
+        setLoadData(true)
+        const res = await getUpcomingSchedule(token,page,itemPerPage)
+        setData(res.rows)
+        setCount(res.count)
+        setLoadData(false)
+    }
+
+    const filter = (item) => {
+        const key = searchKey.toLowerCase()
+        return item.studentRequest?.toLowerCase().includes(key) || item.scheduleDetailInfo.scheduleInfo.tutorInfo.name.toLowerCase().includes(key)
+    }
+
+    React.useEffect(()=>{
+        getData()
+    },[page,itemPerPage])
+
+    const Upcoming = ({item}) =>{
+        const tutorInfo = item.scheduleDetailInfo.scheduleInfo.tutorInfo;
+        const scheduleInfo = item.scheduleDetailInfo.scheduleInfo;
+        const endTime = new Date(scheduleInfo.endTimestamp);
+        const startTime = new Date(scheduleInfo.startTimestamp);
+       
+        return(
+            <ScheduleItem tutorInfo={tutorInfo} scheduleInfo={scheduleInfo} endTime={endTime} startTime={startTime} require = {item.studentRequest} id={item.scheduleDetailInfo.id} />
+        )
+    }
     return(
         <View>
             <Header/>
@@ -18,11 +56,20 @@ export default function Schedule(){
                         <Text style={{fontSize: 18}}>Bạn có thể theo dõi khi nào buổi học bắt đầu, tham gia buổi học bằng một cú nhấp chuột hoặc có thể hủy buổi học trước 2 tiếng.</Text>
                     </View>
                     <View>
+                        <FlatList
+                        data={data.filter(filter)}
+                        renderItem={Upcoming}
+                        keyExtractor={item => item.id.toString()}
+                        refreshing={false}
+                        onRefresh={getData}
+                        ListEmptyComponent={() => <EmptySchedule/>}/>
+
+                        {/* <EmptySchedule/> */}
+                        {/* <ScheduleItem/>
                         <ScheduleItem/>
                         <ScheduleItem/>
                         <ScheduleItem/>
-                        <ScheduleItem/>
-                        <ScheduleItem/>
+                        <ScheduleItem/> */}
 
 
                     </View>

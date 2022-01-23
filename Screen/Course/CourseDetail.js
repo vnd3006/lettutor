@@ -1,5 +1,5 @@
 import React from "react";
-import {View, Text, Image, ScrollView, StyleSheet} from 'react-native'
+import {View, Text, Image, ScrollView, StyleSheet, FlatList} from 'react-native'
 import Header from "../../Component/Header";
 import { AntDesign } from '@expo/vector-icons';
 // import CourseIte from "../../Component/Course";
@@ -7,9 +7,12 @@ import CourseItem from "./CourseItem";
 import { TouchableOpacity } from "react-native";
 // import NewBasicConversation from '../../assets/Course_NewBasicConversation.png'
 import NewBasicConversation from '../../assets/Course_NewBasicConversation.png'
-
-export default function CourseDetail(props){
-    let item = props.route.params.item;
+import { getLevelTitle } from "../../bussiness/course";
+export default function CourseDetail({route}){
+    // let item = props.route.params.item;
+    const {data} = route.params
+    const level = getLevelTitle(data.level)
+    const topic = data.topics
     return(
         <View>
             <Header/>
@@ -17,17 +20,17 @@ export default function CourseDetail(props){
                 <ScrollView>
                     <View style={styles.container}>   
                         <View style={styles.headerCourse}>
-                            <Image style={styles.courseImg} source={NewBasicConversation}/>
+                            <Image style={styles.courseImg} source={{uri: data.imageUrl}}/>
                             <View style={styles.topic}>
                                 <View>
-                                    <Text style={styles.topicHeader}>{item.title}</Text>
+                                    <Text style={styles.topicHeader}>{data.name}</Text>
                                 </View>
                                 <View>
-                                    <Text style={styles.topicDescript}>{item.description}</Text>
+                                    <Text style={styles.topicDescript}>{data.description}</Text>
                                 </View>
                                 <View style={styles.level_time}>
-                                    <Text style={styles.level}>{item.level}</Text>
-                                    <Text>{item.duration}</Text>
+                                    <Text style={styles.level}>{level}</Text>
+                                    <Text>{data.topics.length} chủ đề</Text>
                                 </View>
                             </View>
                         </View>
@@ -45,7 +48,7 @@ export default function CourseDetail(props){
                                         <Text style={styles.subTitle}>Tại sao bạn nên học khóa học này</Text>
                                     </View>
                                     <Text style={styles.description}>
-                                    It can be intimidating to speak with a foreigner, no matter how much grammar and vocabulary you've mastered. If you have basic knowledge of English but have not spent much time speaking, this course will help you ease into your first English conversations.
+                                    {data.reason}
                                     </Text>
                                 </View>
                                 <View>
@@ -54,7 +57,7 @@ export default function CourseDetail(props){
                                         <Text style={styles.subTitle}>Bạn có thể làm gì</Text>
                                     </View>
                                     <Text style={styles.description}>
-                                    This course covers vocabulary at the CEFR A2 level. You will build confidence while learning to speak about a variety of common, everyday topics. In addition, you will build implicit grammar knowledge as your tutor models correct answers and corrects your mistakes.
+                                    {data.purpose}
                                     </Text>
                                 </View>
                             </View>
@@ -64,7 +67,7 @@ export default function CourseDetail(props){
                                 </View>
                                 <View style={styles.overViewDetail}>
                                     <AntDesign name="addusergroup" size={20} color="blue" />
-                                    <Text style={styles.subTitle}>{item.level}</Text>
+                                    <Text style={styles.subTitle}>{level}</Text>
                                 </View>
                             </View>
                             <View>
@@ -73,7 +76,7 @@ export default function CourseDetail(props){
                                 </View>
                                 <View style={styles.overViewDetail}>
                                     <AntDesign name="book" size={20} color="blue" />
-                                    <Text style={styles.subTitle}>{item.duration}</Text>
+                                    <Text style={styles.subTitle}>{data.topics.length} chủ đề</Text>
                                 </View>
                             </View>
                             <View>
@@ -81,7 +84,8 @@ export default function CourseDetail(props){
                                     <Text style={styles.Timetitle}> Danh sách chủ đề</Text>
                                 </View>
                                 <View>
-                                    <Text style={styles.detailTopic}>1. Foods You Love</Text>
+                                    {topic.map((item,index) => <Text style={styles.detailTopic}>{index + 1}. {item.name}</Text>)}
+                                    {/* <Text style={styles.detailTopic}>1. Foods You Love</Text>
                                     <Text style={styles.detailTopic}>2. Foods You Love</Text>
                                     <Text style={styles.detailTopic}>3. Foods You Love</Text>
                                     <Text style={styles.detailTopic}>4. Foods You Love</Text>
@@ -90,7 +94,7 @@ export default function CourseDetail(props){
                                     <Text style={styles.detailTopic}>7. Foods You Love</Text>
                                     <Text style={styles.detailTopic}>8. Foods You Love</Text>
                                     <Text style={styles.detailTopic}>9. Foods You Love</Text>
-                                    <Text style={styles.detailTopic}>10. Foods You Love</Text>
+                                    <Text style={styles.detailTopic}>10. Foods You Love</Text> */}
                                 </View>
                             </View>
                         </View>

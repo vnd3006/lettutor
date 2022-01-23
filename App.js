@@ -59,6 +59,7 @@ const HomePage = ()=>{
   return <CourseStack.Navigator screenOptions={{headerShown : false}}>
     <CourseStack.Screen name='TeacherBooking' component={TeacherBooking} />
     <CourseStack.Screen name='TeacherDetail' component={TeacherDetail}/>
+    <CourseStack.Screen name='Video' component={Video}/>
   </CourseStack.Navigator>
 }
 const HomeNavigator = ()=>{

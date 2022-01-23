@@ -1,4 +1,3 @@
-import { levelFilter } from "../constant";
 export function getListTag(listTag) {
     const result = [];
     listTag.forEach(item =>

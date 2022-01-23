@@ -1,23 +1,28 @@
-import React from "react";
-import {View,Text, StyleSheet,TouchableOpacity, Alert} from 'react-native'
+import React, {useContext} from "react";
+import {View,Text, StyleSheet,TouchableOpacity, Alert} from "react-native"
 import { AntDesign } from '@expo/vector-icons';
-
+import { checkAfter2h } from "../bussiness/date";
 import InfoTeacher from "./InfoTeacher";
-export default function ScheduleItem(){
+import { ApiContext } from "../context/APIcontext";
+
+export default function ScheduleItem(props){
+    const {token} = useContext(ApiContext)
+    const dateStart = props.startTime.toUTCString().substring(0, 16)
+
     return(
         <View style={styles.container}>
             <View style={styles.body}>
-                <Text style={styles.header}>T5, 21 Thg 10 21</Text>
+                <Text style={styles.header}>{dateStart}</Text>
                 <Text >1 buổi học</Text>
-                <InfoTeacher/>
+                <InfoTeacher avt={props.tutorInfo.avatar} name={props.tutorInfo.name} country={props.tutorInfo.country}/>
                 <View style={styles.timelearn}>
-                    <Text style={styles.time}>Thời gian học: 00:00 - 00:25</Text>
-                    <TouchableOpacity onPress={()=>{Alert.alert('Hủy')}}>
+                    <Text style={styles.time}>Thời gian học: {props.startTime.toString().substring(16, 21)} - {props.endTime.toString().substring(16, 21)}</Text>
+                    {checkAfter2h(props.startTime)?<TouchableOpacity >
                         <View style={styles.close}>
                             <AntDesign name="closesquare" size={24} color="#FF4D4F" />
                             <Text style={{color: "#FF4D4F", marginLeft: 10  }}>Hủy</Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>:null}
                     <View style={styles.requirement}>
                         <View style={styles.requireHeader}>
                             <Text>Yêu cầu cho buổi học</Text>
@@ -25,9 +30,14 @@ export default function ScheduleItem(){
                                 <Text style={{color: '#0071F0'}}>Chỉnh sửa yêu cầu</Text>
                             </TouchableOpacity>
                         </View>
-                        <Text style={styles.requireDetail}>
-                        Hiện tại không có yêu cầu cho lớp học này. Xin vui lòng viết ra bất kỳ yêu cầu nào cho giáo viên nếu có.
-                        </Text>
+                        <View>
+                            {props.require == null?
+                            <Text style={styles.requireDetail}>Hiện tại không có yêu cầu cho lớp học này. Xin vui lòng viết ra bất kỳ yêu cầu nào cho giáo viên nếu có.</Text>:
+                            <Text style={styles.requireDetail}>
+    
+                                {props.require}
+                            </Text>}
+                        </View>
                     </View>
                 </View>
                 <TouchableOpacity style={{alignItems:'flex-end'}} disabled={true}>

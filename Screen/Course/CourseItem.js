@@ -4,24 +4,26 @@ import NewBasicConversation from '../../assets/Course_NewBasicConversation.png'
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // import CourseDetail from "../Screen/Course/CourseDetail";
-
+import { getLevelTitle } from "../../bussiness/course";
 export default function CourseItem(props){
+    const id = props.item.id
+    const level = getLevelTitle(props.item.level)
     const onPressItem = ()=>{
-        props.navigation.navigate('CourseDetail', {item : props.item})
+        props.navigation.navigate('CourseDetail', {data :props.item})
     }
     return(
         <TouchableOpacity style={styles.headerCourse} onPress={onPressItem}>
-            <Image style={styles.courseImg} source={NewBasicConversation}/>
+            <Image style={styles.courseImg} source={{uri: props.item.imageUrl}}/>
             <View style={styles.topic}>
                 <View>
-                    <Text style={styles.topicHeader}>{props.item.title}</Text>
+                    <Text style={styles.topicHeader}>{props.item.name}</Text>
                 </View>
                 <View>
                     <Text style={styles.topicDescript}>{props.item.description}</Text>
                 </View>
                 <View style={styles.level_time}>
-                    <Text style={styles.level}>{props.item.level}</Text>
-                    <Text>{props.item.duration}</Text>
+                    <Text style={styles.level}>{level}</Text>
+                    <Text>{props.item.topics.length} chủ đề</Text>
                 </View>
             </View>
         </TouchableOpacity>

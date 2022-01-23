@@ -1,7 +1,7 @@
 import { url_base } from "../api/connect";
 import axios from "axios";
 import { showMessage } from "react-native-flash-message";
-import errorHandle from "../Bussiness/ErrorHandler";
+// import errorHandle from "../Bussiness/ErrorHandler";
 
 export async function editRequest(studentRequest, bookedId, token) {
     try {
@@ -13,7 +13,7 @@ export async function editRequest(studentRequest, bookedId, token) {
         showMessage({ type: 'success', message: 'Update request successfully' })
         return true;
     } catch (error) {
-        errorHandle(error);
+        // errorHandle(error);
         return false;
     }
 }

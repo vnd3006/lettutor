@@ -3,16 +3,19 @@ import {View, Text, Image, StyleSheet} from 'react-native'
 import { AntDesign } from "@expo/vector-icons";
 import AVT from '../assets/avt.jpg'
 import VietNam from '../assets/vietnam.png'
+import { FlagButton } from 'react-native-country-picker-modal';
 
-export default function InfoTeacher(){
+
+export default function InfoTeacher(props){
     return(
         <View style={styles.info}>
-            <Image style={styles.avt} source={AVT}/>
+            <Image style={styles.avt} source={{uri: props.avt}}/>
             <View>
-                <Text style={styles.name}>J Dan</Text>
+                <Text style={styles.name}>{props.name}</Text>
                 <View style={styles.lablecountry}>
-                    <Image style={styles.ensign} source={VietNam}/>
-                    <Text style={styles.country}>Viet Nam</Text>
+                <FlagButton {...{ countryCode: props.country, containerButtonStyle: styles.countryContainer }} withCountryNameButton />
+                    {/* <Image style={styles.ensign} source={VietNam}/>
+                    <Text style={styles.country}>Viet Nam</Text> */}
                 </View>
                 <View style={styles.message}>
                     <AntDesign name="message1" size={24} color="#0071F0" />

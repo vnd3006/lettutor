@@ -2,7 +2,10 @@ import React from "react";
 import {View,Text,TouchableOpacity, StyleSheet} from 'react-native'
 import { EvilIcons } from '@expo/vector-icons';
 
-export default function HeaderBookingClass({hour, min, startTime, endTime, checknull, date}){
+export default function HeaderBookingClass({navigation, hour, min, startTime, endTime, checknull, date}){
+    const handlerGotoClass = ()=>{
+        navigation.navigate('Video')
+    }
     return(
         <View style={styles.container}>
             <Text style={styles.header}>Tổng số giờ bạn đã học là {hour} giờ {min} phút</Text>
@@ -15,7 +18,7 @@ export default function HeaderBookingClass({hour, min, startTime, endTime, check
                     <Text style={styles.TimeOpen}>{startTime} - {endTime}</Text>
                 </View>
                 <View>
-                    <TouchableOpacity style={styles.booking}>
+                    <TouchableOpacity style={styles.booking} onPress ={handlerGotoClass}>
                         <EvilIcons name="calendar" size={24} color="#0C3BDB" />
                         <Text style={{color: '#0C3BDB'}}>Vào lớp học</Text>
                     </TouchableOpacity>
