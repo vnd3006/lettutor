@@ -6,7 +6,6 @@ import errorHandle from '../bussiness/errorHandler'
 
 export async function updateAvatar(token, imgData) {
     try {
-        // return false;
         let data = new FormData();
         data.append('avatar', {
             uri: imgData.uri,
